@@ -1,0 +1,1840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bridgetown AI — Your Dedicated AI Employee</title>
+  <meta name="description" content="A full-time AI assistant running on dedicated hardware in your office. Handles email, calendar, research, and admin — for less than the cost of a coffee run.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Calendly -->
+  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+
+  <style>
+    :root {
+      --forest: #1a3a2a;
+      --forest-deep: #0f2219;
+      --sage: #4a6d5c;
+      --moss: #6b8f71;
+      --mint: #a8d5ba;
+      --cream: #faf8f4;
+      --warm-white: #fffefb;
+      --sand: #e8e0d4;
+      --amber: #d4943a;
+      --amber-light: #f0c97a;
+      --charcoal: #2c2c2c;
+      --slate: #5a5a5a;
+      --light-gray: #f0ede8;
+      --font-display: 'DM Serif Display', Georgia, serif;
+      --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--charcoal);
+      background: var(--cream);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ─── NOISE TEXTURE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ─── UTILITY ─── */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .section-label {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--forest);
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+
+    .section-subtitle {
+      font-size: 1.125rem;
+      color: var(--slate);
+      max-width: 600px;
+      line-height: 1.7;
+    }
+
+    /* ─── BUTTONS ─── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 16px 32px;
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .btn-primary {
+      background: var(--forest);
+      color: var(--cream);
+    }
+
+    .btn-primary:hover {
+      background: var(--forest-deep);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(26, 58, 42, 0.3);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--forest);
+      border: 2px solid var(--forest);
+    }
+
+    .btn-secondary:hover {
+      background: var(--forest);
+      color: var(--cream);
+      transform: translateY(-2px);
+    }
+
+    .btn-amber {
+      background: var(--amber);
+      color: white;
+    }
+
+    .btn-amber:hover {
+      background: #c0852e;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(212, 148, 58, 0.35);
+    }
+
+    /* ─── HEADER / NAV ─── */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 20px 0;
+      transition: all 0.4s ease;
+    }
+
+    .nav.scrolled {
+      background: rgba(250, 248, 244, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(26, 58, 42, 0.08);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--forest);
+    }
+
+    .nav-logo-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--forest);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--mint);
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .nav-logo-text {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      color: var(--forest);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--slate);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--forest);
+    }
+
+    .nav-cta .btn {
+      padding: 10px 24px;
+      font-size: 0.9rem;
+    }
+
+    .mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    .mobile-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--forest);
+      margin: 6px 0;
+      transition: all 0.3s;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      padding: 160px 0 100px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(168, 213, 186, 0.25) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -100px;
+      left: -150px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(212, 148, 58, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .hero-content { position: relative; z-index: 2; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--forest);
+      color: var(--mint);
+      padding: 8px 16px;
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      margin-bottom: 28px;
+    }
+
+    .hero-badge .dot {
+      width: 8px;
+      height: 8px;
+      background: #4ade80;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 3.75rem);
+      color: var(--forest);
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--amber);
+    }
+
+    .hero-text {
+      font-size: 1.15rem;
+      color: var(--slate);
+      line-height: 1.7;
+      margin-bottom: 36px;
+      max-width: 500px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero-proof {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 1px solid var(--sand);
+    }
+
+    .hero-stat {
+      text-align: center;
+      padding-right: 24px;
+    }
+
+    .hero-stat:not(:last-child) {
+      border-right: 1px solid var(--sand);
+      margin-right: 8px;
+    }
+
+    .hero-stat-number {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      color: var(--forest);
+    }
+
+    .hero-stat-label {
+      font-size: 0.75rem;
+      color: var(--slate);
+      font-weight: 500;
+    }
+
+    /* Hero visual */
+    .hero-visual {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-card {
+      background: white;
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 4px 40px rgba(26, 58, 42, 0.08), 0 1px 3px rgba(0,0,0,0.04);
+      position: relative;
+    }
+
+    .hero-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .hero-card-avatar {
+      width: 44px;
+      height: 44px;
+      background: var(--forest);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--mint);
+      font-size: 20px;
+    }
+
+    .hero-card-name {
+      font-weight: 600;
+      color: var(--forest);
+    }
+
+    .hero-card-status {
+      font-size: 0.8rem;
+      color: var(--moss);
+    }
+
+    .hero-card-messages {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .msg {
+      padding: 14px 18px;
+      border-radius: 16px;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      max-width: 85%;
+      animation: msgFade 0.5s ease-out both;
+    }
+
+    .msg-user {
+      background: var(--forest);
+      color: var(--cream);
+      align-self: flex-end;
+      border-bottom-right-radius: 6px;
+      margin-left: auto;
+    }
+
+    .msg-ai {
+      background: var(--light-gray);
+      color: var(--charcoal);
+      align-self: flex-start;
+      border-bottom-left-radius: 6px;
+    }
+
+    .msg:nth-child(1) { animation-delay: 0.3s; }
+    .msg:nth-child(2) { animation-delay: 0.8s; }
+    .msg:nth-child(3) { animation-delay: 1.4s; }
+    .msg:nth-child(4) { animation-delay: 2.0s; }
+
+    @keyframes msgFade {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-float-card {
+      position: absolute;
+      background: white;
+      border-radius: 14px;
+      padding: 16px 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+      font-size: 0.85rem;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .hero-float-card.card-email {
+      top: -20px;
+      right: -30px;
+      animation-delay: 0s;
+    }
+
+    .hero-float-card.card-calendar {
+      bottom: -15px;
+      left: -25px;
+      animation-delay: 2s;
+    }
+
+    .float-icon {
+      font-size: 1.2rem;
+      margin-right: 8px;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* ─── PROBLEM SECTION ─── */
+    .problem {
+      padding: 100px 0;
+      background: var(--forest-deep);
+      color: var(--cream);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .problem::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(ellipse at 20% 50%, rgba(74, 109, 92, 0.3) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(212, 148, 58, 0.1) 0%, transparent 40%);
+    }
+
+    .problem .section-label { color: var(--mint); }
+    .problem .section-title { color: var(--cream); }
+    .problem .section-subtitle { color: rgba(250, 248, 244, 0.7); }
+
+    .problem-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .pain-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .pain-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 32px;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    .pain-card:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-4px);
+    }
+
+    .pain-icon {
+      font-size: 2rem;
+      margin-bottom: 16px;
+    }
+
+    .pain-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+      color: var(--cream);
+    }
+
+    .pain-card p {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: rgba(250, 248, 244, 0.6);
+    }
+
+    .pain-highlight {
+      margin-top: 48px;
+      text-align: center;
+      padding: 32px;
+      background: rgba(212, 148, 58, 0.12);
+      border: 1px solid rgba(212, 148, 58, 0.2);
+      border-radius: 16px;
+    }
+
+    .pain-highlight p {
+      font-size: 1.3rem;
+      font-family: var(--font-display);
+      color: var(--amber-light);
+    }
+
+    .pain-highlight span {
+      color: var(--cream);
+    }
+
+    /* ─── SOLUTION ─── */
+    .solution {
+      padding: 100px 0;
+    }
+
+    .solution-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .solution-header .section-subtitle {
+      margin: 0 auto;
+    }
+
+    .capabilities-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .capability {
+      display: flex;
+      gap: 20px;
+      padding: 28px;
+      border-radius: 16px;
+      background: white;
+      border: 1px solid var(--sand);
+      transition: all 0.3s ease;
+    }
+
+    .capability:hover {
+      border-color: var(--moss);
+      box-shadow: 0 4px 20px rgba(26, 58, 42, 0.06);
+      transform: translateY(-2px);
+    }
+
+    .cap-icon {
+      width: 48px;
+      height: 48px;
+      min-width: 48px;
+      background: linear-gradient(135deg, var(--forest), var(--sage));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+
+    .cap-content h3 {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--forest);
+      margin-bottom: 6px;
+    }
+
+    .cap-content p {
+      font-size: 0.88rem;
+      color: var(--slate);
+      line-height: 1.55;
+    }
+
+    /* ─── HOW IT WORKS ─── */
+    .how-it-works {
+      padding: 100px 0;
+      background: var(--light-gray);
+    }
+
+    .how-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .how-header .section-subtitle {
+      margin: 0 auto;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      position: relative;
+    }
+
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: 44px;
+      left: 16%;
+      right: 16%;
+      height: 2px;
+      background: linear-gradient(to right, var(--moss), var(--amber), var(--forest));
+      opacity: 0.3;
+    }
+
+    .step {
+      text-align: center;
+      position: relative;
+    }
+
+    .step-number {
+      width: 88px;
+      height: 88px;
+      margin: 0 auto 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .step:nth-child(1) .step-number {
+      background: var(--forest);
+      color: var(--mint);
+    }
+
+    .step:nth-child(2) .step-number {
+      background: var(--amber);
+      color: white;
+    }
+
+    .step:nth-child(3) .step-number {
+      background: var(--forest-deep);
+      color: var(--mint);
+    }
+
+    .step h3 {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      color: var(--forest);
+      margin-bottom: 10px;
+    }
+
+    .step p {
+      font-size: 0.95rem;
+      color: var(--slate);
+      line-height: 1.6;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+
+    /* ─── PRICING ─── */
+    .pricing {
+      padding: 100px 0;
+    }
+
+    .pricing-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .pricing-header .section-subtitle {
+      margin: 0 auto;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .price-card {
+      background: white;
+      border: 2px solid var(--sand);
+      border-radius: 20px;
+      padding: 36px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .price-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(26, 58, 42, 0.1);
+    }
+
+    .price-card.featured {
+      border-color: var(--forest);
+      background: var(--forest-deep);
+      color: var(--cream);
+    }
+
+    .price-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--amber);
+      color: white;
+      padding: 6px 20px;
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .price-tier {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 8px;
+    }
+
+    .price-card.featured .price-tier { color: var(--mint); }
+
+    .price-name {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      margin-bottom: 4px;
+    }
+
+    .price-card.featured .price-name { color: var(--cream); }
+
+    .price-desc {
+      font-size: 0.88rem;
+      color: var(--slate);
+      margin-bottom: 24px;
+    }
+
+    .price-card.featured .price-desc { color: rgba(250, 248, 244, 0.6); }
+
+    .price-amount {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      color: var(--forest);
+      margin-bottom: 4px;
+    }
+
+    .price-card.featured .price-amount { color: var(--amber-light); }
+
+    .price-note {
+      font-size: 0.8rem;
+      color: var(--slate);
+      margin-bottom: 28px;
+    }
+
+    .price-card.featured .price-note { color: rgba(250, 248, 244, 0.5); }
+
+    .price-features {
+      list-style: none;
+      margin-bottom: 28px;
+    }
+
+    .price-features li {
+      padding: 8px 0;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      color: var(--charcoal);
+    }
+
+    .price-card.featured .price-features li { color: rgba(250, 248, 244, 0.85); }
+
+    .price-features li::before {
+      content: '✓';
+      color: var(--moss);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .price-card.featured .price-features li::before { color: var(--mint); }
+
+    .price-card .btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .pricing-note {
+      text-align: center;
+      margin-top: 32px;
+      font-size: 0.88rem;
+      color: var(--slate);
+    }
+
+    /* ─── DIFFERENTIATORS ─── */
+    .differentiators {
+      padding: 100px 0;
+      background: var(--forest);
+      color: var(--cream);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .differentiators::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(212, 148, 58, 0.12) 0%, transparent 60%);
+      border-radius: 50%;
+    }
+
+    .diff-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 40px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .diff-header {
+      margin-bottom: 20px;
+    }
+
+    .diff-header .section-label { color: var(--mint); }
+    .diff-header .section-title { color: var(--cream); font-size: clamp(1.75rem, 3.5vw, 2.5rem); }
+
+    .diff-items {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .diff-item {
+      display: flex;
+      gap: 16px;
+      padding: 24px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .diff-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .diff-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .diff-item h3 {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+
+    .diff-item p {
+      font-size: 0.88rem;
+      color: rgba(250, 248, 244, 0.6);
+      line-height: 1.55;
+    }
+
+    /* ─── COMPARE TABLE ─── */
+    .compare {
+      padding: 100px 0;
+      background: var(--light-gray);
+    }
+
+    .compare-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .compare-header .section-subtitle { margin: 0 auto; }
+
+    .compare-table {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .compare-table table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .compare-table th,
+    .compare-table td {
+      padding: 18px 28px;
+      text-align: left;
+      font-size: 0.92rem;
+    }
+
+    .compare-table thead th {
+      background: var(--forest-deep);
+      color: var(--cream);
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+    }
+
+    .compare-table thead th:first-child {
+      border-top-left-radius: 0;
+    }
+
+    .compare-table thead th:nth-child(3) {
+      color: var(--amber-light);
+    }
+
+    .compare-table tbody tr {
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .compare-table tbody tr:last-child {
+      border-bottom: none;
+    }
+
+    .compare-table tbody td:first-child {
+      color: var(--slate);
+      font-weight: 500;
+    }
+
+    .compare-table tbody td:nth-child(3) {
+      color: var(--forest);
+      font-weight: 600;
+    }
+
+    .compare-check { color: var(--moss); }
+    .compare-x { color: #ccc; }
+
+    /* ─── FAQ ─── */
+    .faq {
+      padding: 100px 0;
+    }
+
+    .faq-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .faq-header .section-subtitle { margin: 0 auto; }
+
+    .faq-list {
+      max-width: 760px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .faq-item {
+      background: white;
+      border: 1px solid var(--sand);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .faq-item:hover {
+      border-color: var(--moss);
+    }
+
+    .faq-question {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 28px;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--forest);
+      font-size: 1rem;
+      background: none;
+      border: none;
+      width: 100%;
+      text-align: left;
+      font-family: var(--font-body);
+    }
+
+    .faq-question::after {
+      content: '+';
+      font-size: 1.5rem;
+      color: var(--sage);
+      transition: transform 0.3s;
+      font-weight: 300;
+    }
+
+    .faq-item.open .faq-question::after {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+    }
+
+    .faq-answer-inner {
+      padding: 0 28px 22px;
+      font-size: 0.92rem;
+      line-height: 1.7;
+      color: var(--slate);
+    }
+
+    /* ─── CTA ─── */
+    .cta {
+      padding: 100px 0;
+      background: var(--forest-deep);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(168, 213, 186, 0.15) 0%, transparent 60%);
+      border-radius: 50%;
+    }
+
+    .cta-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .cta .section-label { color: var(--mint); }
+
+    .cta h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--cream);
+      margin-bottom: 16px;
+    }
+
+    .cta p {
+      font-size: 1.1rem;
+      color: rgba(250, 248, 244, 0.65);
+      margin-bottom: 36px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-details {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 32px;
+    }
+
+    .cta-detail {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(250, 248, 244, 0.5);
+      font-size: 0.88rem;
+    }
+
+    .cta-detail-icon { font-size: 1.1rem; }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      padding: 40px 0;
+      background: var(--forest-deep);
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-logo {
+      width: 28px;
+      height: 28px;
+      background: var(--sage);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--cream);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .footer-text {
+      color: rgba(250, 248, 244, 0.4);
+      font-size: 0.85rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-links a {
+      color: rgba(250, 248, 244, 0.4);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--cream); }
+
+    /* ─── ANIMATIONS ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 968px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .hero-visual {
+        max-width: 500px;
+      }
+
+      .pain-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .capabilities-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .steps {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .steps::before { display: none; }
+
+      .pricing-grid {
+        grid-template-columns: 1fr;
+        max-width: 440px;
+        margin: 0 auto;
+      }
+
+      .diff-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .compare-table {
+        overflow-x: auto;
+      }
+
+      .nav-links { display: none; }
+      .mobile-toggle { display: block; }
+    }
+
+    @media (max-width: 640px) {
+      .hero { padding: 120px 0 60px; }
+
+      .hero-float-card { display: none; }
+
+      .hero-proof {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .hero-stat {
+        border-right: none !important;
+        padding-right: 0;
+        margin-right: 0;
+        text-align: left;
+      }
+
+      .cta-details {
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── NAVIGATION ─── -->
+  <nav class="nav" id="nav">
+    <div class="container nav-inner">
+      <a href="#" class="nav-logo">
+        <div class="nav-logo-icon">B</div>
+        <span class="nav-logo-text">Bridgetown AI</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#solution">What We Do</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li class="nav-cta"><a href="#book" class="btn btn-primary" onclick="openCalendly()">Book a Call</a></li>
+      </ul>
+      <button class="mobile-toggle" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ─── HERO ─── -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="dot"></span>
+          Portland, Oregon
+        </div>
+        <h1>Your Smartest Employee <em>Never Sleeps</em></h1>
+        <p class="hero-text">
+          A dedicated AI assistant running on hardware in your office. It reads your email, manages your calendar, processes spreadsheets, and handles admin — 24/7, for a fraction of the cost of a hire.
+        </p>
+        <div class="hero-buttons">
+          <a href="#book" class="btn btn-primary" onclick="openCalendly()">
+            Schedule Discovery Call
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="#how-it-works" class="btn btn-secondary">See How It Works</a>
+        </div>
+        <div class="hero-proof">
+          <div class="hero-stat">
+            <div class="hero-stat-number">24/7</div>
+            <div class="hero-stat-label">Always On</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-number">90%</div>
+            <div class="hero-stat-label">Less Than a VA</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-number">100%</div>
+            <div class="hero-stat-label">Your Hardware</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-card">
+          <div class="hero-card-header">
+            <div class="hero-card-avatar">⚡</div>
+            <div>
+              <div class="hero-card-name">AI Assistant</div>
+              <div class="hero-card-status">● Online — always</div>
+            </div>
+          </div>
+          <div class="hero-card-messages">
+            <div class="msg msg-user">Check my email and summarize anything urgent</div>
+            <div class="msg msg-ai">You've got 3 urgent items: a contract review from Lisa due tomorrow, a client invoice that's overdue, and a meeting rescheduled to 2pm today. Want me to draft responses?</div>
+            <div class="msg msg-user">Yes, draft replies for all three</div>
+            <div class="msg msg-ai">Done — 3 drafts ready for your approval. I also noticed your 2pm meeting conflicts with a dentist appointment. Want me to suggest a new time to the client?</div>
+          </div>
+          <div class="hero-float-card card-email">
+            <span class="float-icon">📨</span> 3 urgent emails flagged
+          </div>
+          <div class="hero-float-card card-calendar">
+            <span class="float-icon">📅</span> Conflict detected
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PROBLEM ─── -->
+  <section class="problem">
+    <div class="container problem-content">
+      <div class="section-label">The Problem</div>
+      <div class="section-title">You Didn't Start a Business<br>to Drown in Admin</div>
+      <div class="section-subtitle">You're spending hours on tasks that don't grow your business — while the work that matters waits.</div>
+
+      <div class="pain-grid reveal">
+        <div class="pain-card">
+          <div class="pain-icon">📬</div>
+          <h3>Email Overload</h3>
+          <p>Hours lost every week sorting, reading, drafting, and following up. Important messages buried under noise.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-icon">📊</div>
+          <h3>Data & Spreadsheet Work</h3>
+          <p>Manually updating reports, cleaning data, and building spreadsheets that should take minutes, not hours.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-icon">🗓️</div>
+          <h3>Scheduling Chaos</h3>
+          <p>Back-and-forth emails to book meetings. Double-bookings. Forgotten follow-ups. Calendar Tetris.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-icon">🔍</div>
+          <h3>Research Black Holes</h3>
+          <p>Spending an afternoon researching something that a smart assistant could summarize in 5 minutes.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-icon">💸</div>
+          <h3>VA Costs Add Up</h3>
+          <p>A part-time virtual assistant runs $1,500–3,000/month. And they're only available during business hours.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-icon">🔐</div>
+          <h3>Privacy Concerns</h3>
+          <p>Cloud AI tools send your sensitive business data to shared servers. Who else is reading your information?</p>
+        </div>
+      </div>
+
+      <div class="pain-highlight reveal">
+        <p><span>The average small business owner spends 16 hours per week</span> on administrative tasks that don't generate revenue.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SOLUTION ─── -->
+  <section class="solution" id="solution">
+    <div class="container">
+      <div class="solution-header">
+        <div class="section-label">The Solution</div>
+        <div class="section-title">An AI Employee That Actually Works</div>
+        <div class="section-subtitle">Not a chatbot. Not a plugin. A dedicated AI assistant on your own hardware that connects to your real tools and does real work.</div>
+      </div>
+
+      <div class="capabilities-grid reveal">
+        <div class="capability">
+          <div class="cap-icon">📧</div>
+          <div class="cap-content">
+            <h3>Email Management</h3>
+            <p>Reads your inbox, summarizes what's urgent, drafts replies in your voice, and sends only with your approval.</p>
+          </div>
+        </div>
+        <div class="capability">
+          <div class="cap-icon">📅</div>
+          <div class="cap-content">
+            <h3>Calendar & Scheduling</h3>
+            <p>Manages your calendar, alerts you to conflicts, preps you before meetings, and coordinates scheduling.</p>
+          </div>
+        </div>
+        <div class="capability">
+          <div class="cap-icon">📊</div>
+          <div class="cap-content">
+            <h3>Spreadsheets & Data</h3>
+            <p>Processes Excel files, cleans data, builds reports, and emails you the results — send it a file, get back answers.</p>
+          </div>
+        </div>
+        <div class="capability">
+          <div class="cap-icon">🔍</div>
+          <div class="cap-content">
+            <h3>Research & Analysis</h3>
+            <p>Searches the web, analyzes documents, summarizes findings, and delivers concise briefs on any topic.</p>
+          </div>
+        </div>
+        <div class="capability">
+          <div class="cap-icon">💬</div>
+          <div class="cap-content">
+            <h3>Text or Chat Anytime</h3>
+            <p>Message your assistant via text, WhatsApp, Signal, or web chat. It responds instantly, 24/7.</p>
+          </div>
+        </div>
+        <div class="capability">
+          <div class="cap-icon">🧠</div>
+          <div class="cap-content">
+            <h3>Learns & Remembers</h3>
+            <p>Remembers your preferences, your contacts, your style. Gets smarter and more useful the more you use it.</p>
+          </div>
+        </div>
+        <div class="capability">
+          <div class="cap-icon">📝</div>
+          <div class="cap-content">
+            <h3>Document Drafting</h3>
+            <p>Writes proposals, emails, reports, and documents tailored to your voice and your audience.</p>
+          </div>
+        </div>
+        <div class="capability">
+          <div class="cap-icon">⚡</div>
+          <div class="cap-content">
+            <h3>Custom Automations</h3>
+            <p>We build workflows specific to your business — CRM updates, lead tracking, invoice reminders, whatever you need.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── HOW IT WORKS ─── -->
+  <section class="how-it-works" id="how-it-works">
+    <div class="container">
+      <div class="how-header">
+        <div class="section-label">How It Works</div>
+        <div class="section-title">Up and Running in a Week</div>
+        <div class="section-subtitle">We handle everything. You just show up for a training session and start delegating.</div>
+      </div>
+
+      <div class="steps reveal">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Discovery Call</h3>
+          <p>We learn about your business, your tools, and where you're losing time. 30 minutes, no pressure.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Custom Setup</h3>
+          <p>We configure your dedicated hardware, connect your email, calendar, and tools, and tailor the AI to your workflow.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Go Live</h3>
+          <p>Hands-on training session, then your AI assistant starts working. We provide ongoing support as you scale.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PRICING ─── -->
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <div class="pricing-header">
+        <div class="section-label">Investment</div>
+        <div class="section-title">Choose Your Package</div>
+        <div class="section-subtitle">One-time setup plus optional monthly support. No long-term contracts.</div>
+      </div>
+
+      <div class="pricing-grid reveal">
+        <div class="price-card">
+          <div class="price-tier">Starter</div>
+          <div class="price-name">Essential</div>
+          <div class="price-desc">Perfect for solopreneurs and small teams</div>
+          <div class="price-amount">$1,500</div>
+          <div class="price-note">One-time setup</div>
+          <ul class="price-features">
+            <li>Dedicated Mac Mini hardware</li>
+            <li>Email integration (read + draft)</li>
+            <li>One messaging channel (text/chat)</li>
+            <li>Calendar read access</li>
+            <li>1 hour hands-on training</li>
+            <li>7 days post-launch support</li>
+          </ul>
+          <a href="#book" class="btn btn-secondary" onclick="openCalendly()">Get Started</a>
+        </div>
+
+        <div class="price-card featured">
+          <div class="price-badge">Most Popular</div>
+          <div class="price-tier">Professional</div>
+          <div class="price-name">Full Power</div>
+          <div class="price-desc">For businesses ready to delegate seriously</div>
+          <div class="price-amount">$3,000</div>
+          <div class="price-note">One-time setup</div>
+          <ul class="price-features">
+            <li>Everything in Essential</li>
+            <li>Full email send + calendar management</li>
+            <li>Two messaging channels</li>
+            <li>Spreadsheet & data processing</li>
+            <li>Custom automation workflows</li>
+            <li>2 hours hands-on training</li>
+            <li>30 days priority support</li>
+          </ul>
+          <a href="#book" class="btn btn-amber" onclick="openCalendly()">Get Started</a>
+        </div>
+
+        <div class="price-card">
+          <div class="price-tier">Enterprise</div>
+          <div class="price-name">Total Integration</div>
+          <div class="price-desc">Full-stack AI for growing organizations</div>
+          <div class="price-amount">$6,000</div>
+          <div class="price-note">One-time setup</div>
+          <ul class="price-features">
+            <li>Everything in Professional</li>
+            <li>CRM integration</li>
+            <li>Multi-user access</li>
+            <li>Custom skill development</li>
+            <li>Advanced hardware configuration</li>
+            <li>4 hours training + documentation</li>
+            <li>60 days premium support</li>
+          </ul>
+          <a href="#book" class="btn btn-secondary" onclick="openCalendly()">Get Started</a>
+        </div>
+      </div>
+
+      <p class="pricing-note">
+        All packages include the dedicated Mac Mini. Monthly AI API costs ($25–100) are billed separately through your own account.
+        <br>Optional ongoing support plans start at $99/month.
+      </p>
+    </div>
+  </section>
+
+  <!-- ─── DIFFERENTIATORS ─── -->
+  <section class="differentiators">
+    <div class="container diff-grid">
+      <div class="diff-header">
+        <div class="section-label">Why Bridgetown AI</div>
+        <div class="section-title">Not Another ChatGPT Wrapper</div>
+        <p style="color: rgba(250,248,244,0.6); font-size: 1.05rem; margin-top: 16px; line-height: 1.7;">
+          We don't sell subscriptions to a chatbot. We build you a dedicated AI team member that lives on your hardware, connects to your real tools, and gets smarter every day.
+        </p>
+      </div>
+
+      <div class="diff-items">
+        <div class="diff-item">
+          <div class="diff-icon">🏠</div>
+          <div>
+            <h3>Your Hardware, Your Data</h3>
+            <p>Runs on a Mac Mini in your office. Your data never touches shared cloud infrastructure. Complete privacy.</p>
+          </div>
+        </div>
+        <div class="diff-item">
+          <div class="diff-icon">🔌</div>
+          <div>
+            <h3>Actually Connected</h3>
+            <p>Not a chat window — it's plugged into your email, calendar, files, and messaging. It does the work, not just talks about it.</p>
+          </div>
+        </div>
+        <div class="diff-item">
+          <div class="diff-icon">🧠</div>
+          <div>
+            <h3>Persistent Memory</h3>
+            <p>Remembers your preferences, past decisions, key contacts, and style. Like a real employee who's been with you for years.</p>
+          </div>
+        </div>
+        <div class="diff-item">
+          <div class="diff-icon">🛡️</div>
+          <div>
+            <h3>Human in the Loop</h3>
+            <p>Five layers of safety. It drafts everything, sends nothing without your approval. You're always in control.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── COMPARISON TABLE ─── -->
+  <section class="compare">
+    <div class="container">
+      <div class="compare-header">
+        <div class="section-label">Comparison</div>
+        <div class="section-title">How We Stack Up</div>
+        <div class="section-subtitle">See why a dedicated AI employee beats the alternatives.</div>
+      </div>
+
+      <div class="compare-table reveal">
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Virtual Assistant</th>
+              <th>Bridgetown AI ⚡</th>
+              <th>ChatGPT / Copilot</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Available 24/7</td>
+              <td><span class="compare-x">✕</span> Business hours</td>
+              <td><span class="compare-check">✓</span> Always on</td>
+              <td><span class="compare-check">✓</span> Always on</td>
+            </tr>
+            <tr>
+              <td>Reads your email</td>
+              <td><span class="compare-check">✓</span></td>
+              <td><span class="compare-check">✓</span> Automatic</td>
+              <td><span class="compare-x">✕</span></td>
+            </tr>
+            <tr>
+              <td>Manages calendar</td>
+              <td><span class="compare-check">✓</span></td>
+              <td><span class="compare-check">✓</span> Automatic</td>
+              <td><span class="compare-x">✕</span></td>
+            </tr>
+            <tr>
+              <td>Processes spreadsheets</td>
+              <td><span class="compare-check">✓</span> Manually</td>
+              <td><span class="compare-check">✓</span> Instant</td>
+              <td><span class="compare-x">✕</span> Copy-paste only</td>
+            </tr>
+            <tr>
+              <td>Remembers context</td>
+              <td><span class="compare-check">✓</span></td>
+              <td><span class="compare-check">✓</span> Permanent</td>
+              <td><span class="compare-x">✕</span> Resets each chat</td>
+            </tr>
+            <tr>
+              <td>Data privacy</td>
+              <td><span class="compare-x">✕</span> Human access</td>
+              <td><span class="compare-check">✓</span> On your hardware</td>
+              <td><span class="compare-x">✕</span> Cloud shared</td>
+            </tr>
+            <tr>
+              <td>Monthly cost</td>
+              <td>$1,500–3,000</td>
+              <td><strong>$25–100</strong></td>
+              <td>$20–30</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FAQ ─── -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <div class="faq-header">
+        <div class="section-label">Questions</div>
+        <div class="section-title">Frequently Asked</div>
+        <div class="section-subtitle">Everything you need to know before getting started.</div>
+      </div>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question">What exactly am I getting?</button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              A dedicated Mac Mini computer, pre-configured with an AI assistant that connects to your email, calendar, messaging, and files. It runs 24/7 in your office and you communicate with it via text message, WhatsApp, Signal, or web chat — just like messaging a real assistant.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Is my data safe?</button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Yes. Your AI runs on hardware in your office — not on shared cloud servers. Your data stays on your machine. The only external connection is to the AI model (Claude by Anthropic), and we configure it with five layers of safety controls. The AI never sends anything without your explicit approval.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">What are the ongoing costs?</button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              After the one-time setup, you'll pay $25–100/month for the AI model API (based on how much you use it) — billed directly to you through your own account. That's it. Optional support plans start at $99/month if you want ongoing assistance and new feature development.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Can it actually send emails for me?</button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Yes, but it always shows you the draft first and waits for your approval. Think of it like having an assistant who writes the email and says "does this look good?" before hitting send. As trust builds, you can expand what it's allowed to do autonomously.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Do I need to be technical?</button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Not at all. We handle all the technical setup. You just need to know how to send a text message. If you can message a friend, you can use your AI assistant. We also include hands-on training to make sure you're comfortable.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">What happens if something goes wrong?</button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Text "stop" to pause the AI immediately. You can also power off the Mac Mini. Because of our safety-first design, the AI never takes irreversible actions without your approval, so there's always time to course-correct. All packages include post-launch support for exactly this reason.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">How is this different from just using ChatGPT?</button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              ChatGPT is a chat window — you ask questions and get answers. Our AI assistant is connected to your actual tools. It reads your real email, manages your real calendar, processes your real files, and remembers everything about your business. It's the difference between asking someone for advice vs. having them actually do the work.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CTA ─── -->
+  <section class="cta" id="book">
+    <div class="container cta-content">
+      <div class="section-label">Get Started</div>
+      <h2>Ready to Meet Your<br>New Favorite Employee?</h2>
+      <p>Book a free 30-minute discovery call. We'll learn about your business and show you exactly how an AI assistant can save you time.</p>
+      <a href="#" class="btn btn-amber" onclick="openCalendly()" style="font-size: 1.1rem; padding: 18px 40px;">
+        Schedule Your Free Discovery Call
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <div class="cta-details">
+        <div class="cta-detail">
+          <span class="cta-detail-icon">⏱️</span> 30 minutes
+        </div>
+        <div class="cta-detail">
+          <span class="cta-detail-icon">🆓</span> Completely free
+        </div>
+        <div class="cta-detail">
+          <span class="cta-detail-icon">💡</span> No obligation
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <div class="footer-logo">B</div>
+        <span class="footer-text">© 2026 Bridgetown AI · Portland, Oregon</span>
+      </div>
+      <div class="footer-links">
+        <a href="mailto:sean@bridgetownai.com">sean@bridgetownai.com</a>
+        <a href="#book" onclick="openCalendly()">Book a Call</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ─── NAV SCROLL ───
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // ─── MOBILE MENU ───
+    function toggleMenu() {
+      const links = document.querySelector('.nav-links');
+      links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+      if (links.style.display === 'flex') {
+        links.style.position = 'absolute';
+        links.style.top = '100%';
+        links.style.left = '0';
+        links.style.right = '0';
+        links.style.flexDirection = 'column';
+        links.style.background = 'rgba(250,248,244,0.98)';
+        links.style.padding = '20px 24px';
+        links.style.gap = '16px';
+        links.style.borderBottom = '1px solid rgba(26,58,42,0.08)';
+      }
+    }
+
+    // ─── FAQ TOGGLE ───
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        const wasOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        if (!wasOpen) item.classList.add('open');
+      });
+    });
+
+    // ─── REVEAL ON SCROLL ───
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+
+    // ─── CALENDLY ───
+    // REPLACE THIS URL with your actual Calendly link
+    function openCalendly() {
+      Calendly.initPopupWidget({
+        url: 'https://calendly.com/sean-teisher-bridgetownai/30min'
+      });
+      return false;
+    }
+  </script>
+
+</body>
+</html>
