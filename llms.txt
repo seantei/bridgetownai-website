@@ -1,0 +1,51 @@
+# Bridgetown AI
+
+> Portland, Oregon-based AI consulting company that installs dedicated AI assistants for small businesses.
+
+## What We Do
+
+Bridgetown AI installs, configures, and maintains private AI assistants on dedicated Mac Mini hardware for small businesses. Our AI employees handle email management, calendar scheduling, spreadsheet processing, web research, document drafting, and custom automations — running 24/7 on hardware the client owns.
+
+## Key Differentiators
+
+- **On-Premise**: AI runs on hardware in your office, not shared cloud servers
+- **Private**: Your data never leaves your building
+- **Connected**: Plugged into real email, calendar, CRM, and files — not just a chat window
+- **Persistent Memory**: Remembers your business context, preferences, and contacts permanently
+- **Secure**: Full disk encryption, access controls, prompt injection defense, weekly security audits
+- **Human-in-the-Loop**: AI never takes irreversible actions without explicit approval
+
+## Pricing
+
+- Professional Setup: $3,000 one-time (includes Mac Mini hardware)
+- Enterprise Setup: $5,000 one-time (includes CRM integration, multi-user)
+- Standard Support: $349/month
+- Premium Support: $549/month
+- AI API Costs: $50-150/month (client pays directly, not through us)
+- 30-day money-back guarantee
+
+## Comparison to Alternatives
+
+| Feature | Bridgetown AI | ChatGPT/Copilot | Virtual Assistant |
+|---------|--------------|-----------------|-------------------|
+| Available 24/7 | Yes | Yes | No (business hours) |
+| Reads real email | Yes | No | Yes |
+| Manages real calendar | Yes | No | Yes |
+| Processes spreadsheets | Yes (instant) | No (copy-paste) | Yes (manual) |
+| Permanent memory | Yes | No (resets) | Yes |
+| Data privacy | On your hardware | Cloud shared | Human access |
+| Monthly cost | $50-150 API | $20-30/user | $1,500-3,000 |
+
+## Location
+
+Portland, Oregon (serving Portland metro, Beaverton, Lake Oswego, Tigard, Hillsboro, and the Pacific Northwest)
+
+## Contact
+
+- Website: https://bridgetownai.com
+- Email: sean@bridgetownai.com
+- Book a call: https://calendly.com/sean-teisher-bridgetownai/30min
+
+## Founded
+
+2026 by Sean Teisher
