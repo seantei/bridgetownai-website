@@ -1,28 +1,26 @@
 # Bridgetown AI
 
-> Portland, Oregon-based AI consulting company that installs dedicated AI assistants for small businesses.
+> Portland, Oregon-based AI consulting company that designs and deploys 24/7 AI employees (autonomous agent stacks) for small businesses.
 
 ## What We Do
 
-Bridgetown AI installs, configures, and maintains private AI assistants on dedicated Mac Mini hardware for small businesses. Our AI employees handle email management, calendar scheduling, spreadsheet processing, web research, document drafting, and custom automations — running 24/7 on hardware the client owns.
+Bridgetown AI builds proficient agent systems for defined job functions — email, calendar, CRM, outreach, research, and ops. If a human does it at a keyboard today, we can usually design an agent to own that job — with your approval on anything irreversible. Stacks we work with include Hermes, OpenClaw, Paperclip, ChatGPT, Claude, Grok, Grok Bot, Muse, and Jev. On-premise or private deployments available.
 
 ## Key Differentiators
 
-- **On-Premise**: AI runs on hardware in your office, not shared cloud servers
-- **Private**: Your data never leaves your building
-- **Connected**: Plugged into real email, calendar, CRM, and files — not just a chat window
-- **Persistent Memory**: Remembers your business context, preferences, and contacts permanently
-- **Secure**: Full disk encryption, access controls, prompt injection defense, weekly security audits
-- **Human-in-the-Loop**: AI never takes irreversible actions without explicit approval
+- **Agent employees, not chat toys**: Wired to real email, calendar, CRM, and files
+- **Human-in-the-loop**: Never takes irreversible actions without explicit approval
+- **On-premise / private options**: Data can stay on hardware you control
+- **Persistent memory**: Remembers business context, preferences, and contacts
+- **Secure by design**: Access controls, approval gates, and stop controls
 
-## Pricing
+## Pricing (public)
 
-- Professional Setup: $3,000 one-time (includes Mac Mini hardware)
-- Enterprise Setup: $5,000 one-time (includes CRM integration, multi-user)
-- Standard Support: $349/month
-- Premium Support: $549/month
-- AI API Costs: $50-150/month (client pays directly, not through us)
-- 30-day money-back guarantee
+- Free 30-minute Fit Call: diagnose one workflow; leave with a written AI-employee job description
+- Agent Assessment: $500 / 2 hours — map 2–3 automatable jobs, stack recommendation, risks, build or don't-build recommendation
+- Value guarantee on Assessment: if you do not leave with a clear plan worth more than $500 of your time, refund the fee
+- Setup packages and support plans: proposal-only after assessment (not listed as public sticker prices)
+- AI API costs after go-live: typically $50-150/month (usage-based; client pays providers directly)
 
 ## Comparison to Alternatives
 
@@ -33,18 +31,19 @@ Bridgetown AI installs, configures, and maintains private AI assistants on dedic
 | Manages real calendar | Yes | No | Yes |
 | Processes spreadsheets | Yes (instant) | No (copy-paste) | Yes (manual) |
 | Permanent memory | Yes | No (resets) | Yes |
-| Data privacy | On your hardware | Cloud shared | Human access |
-| Monthly cost | $50-150 API | $20-30/user | $1,500-3,000 |
+| Data privacy | On your hardware / private options | Cloud shared | Human access |
+| Monthly cost (after setup) | $50-150 API typical | $20-30/user | $1,500-3,000 |
 
 ## Location
 
-Portland, Oregon (serving Portland metro, Beaverton, Lake Oswego, Tigard, Hillsboro, and the Pacific Northwest)
+Portland, Oregon (serving Portland metro, Beaverton, Lake Oswego, Tigard, Hillsboro, and the Pacific Northwest; remote-ok)
 
 ## Contact
 
 - Website: https://bridgetownai.com
 - Email: sean.teisher@bridgetownai.com
-- Book a call: https://calendly.com/sean-teisher-bridgetownai/30min
+- Book free Fit Call: https://calendly.com/sean-teisher-bridgetownai/30min
+- Book $500 Assessment: https://calendly.com/bridgetownai/discovery
 
 ## Founded
 
