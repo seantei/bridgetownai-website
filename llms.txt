@@ -1,49 +1,43 @@
 # Bridgetown AI
 
-> Portland, Oregon-based AI consulting company that designs and deploys 24/7 AI employees (autonomous agent stacks) for small businesses.
+> Portland, Oregon-based AI company that designs and deploys 24/7 AI employees for small businesses.
 
 ## What We Do
 
-Bridgetown AI builds proficient agent systems for defined job functions — email, calendar, CRM, outreach, research, and ops. If a human does it at a keyboard today, we can usually design an agent to own that job — with your approval on anything irreversible. Stacks we work with include Hermes, OpenClaw, Paperclip, ChatGPT, Claude, Grok, Grok Bot, Muse, and Jev. On-premise or private deployments available.
+Bridgetown AI builds autonomous AI employees for digital jobs: email, calendar, CRM, research, documents, outreach, ops, and more. Agents connect to real tools. A human can stay in the loop at every stage. Irreversible actions require approval.
+
+## Offer
+
+- Free discovery call (30 minutes): map one AI-employee role, tools, and human checkpoints.
+- Promise: no customer is ever charged until they agree their AI employee is providing the value being charged for.
+- Builds and ongoing care are scoped after discovery.
+
+## Example roles AI employees handle reliably
+
+Inbox triage & drafting · Calendar & scheduling · Meeting prep & follow-up · Spreadsheet & report ops · Research · Document drafting · Outreach sequences · CRM hygiene · Order/vendor chase · Support triage · Knowledge base curation · Monitoring & alerts
 
 ## Key Differentiators
 
-- **Agent employees, not chat toys**: Wired to real email, calendar, CRM, and files
-- **Human-in-the-loop**: Never takes irreversible actions without explicit approval
-- **On-premise / private options**: Data can stay on hardware you control
-- **Persistent memory**: Remembers business context, preferences, and contacts
-- **Secure by design**: Access controls, approval gates, and stop controls
+- Free discovery with zero pitch tax
+- Human-in-the-loop by default
+- Value-before-invoice risk reversal
+- Real system connections, not chat toys
+- On-prem / private options when data must stay close
 
-## Pricing (public)
+## Stacks we work with
 
-- Free 30-minute Fit Call: diagnose one workflow; leave with a written AI-employee job description
-- Agent Assessment: $500 / 2 hours — map 2–3 automatable jobs, stack recommendation, risks, build or don't-build recommendation
-- Value guarantee on Assessment: if you do not leave with a clear plan worth more than $500 of your time, refund the fee
-- Setup packages and support plans: proposal-only after assessment (not listed as public sticker prices)
-- AI API costs after go-live: typically $50-150/month (usage-based; client pays providers directly)
-
-## Comparison to Alternatives
-
-| Feature | Bridgetown AI | ChatGPT/Copilot | Virtual Assistant |
-|---------|--------------|-----------------|-------------------|
-| Available 24/7 | Yes | Yes | No (business hours) |
-| Reads real email | Yes | No | Yes |
-| Manages real calendar | Yes | No | Yes |
-| Processes spreadsheets | Yes (instant) | No (copy-paste) | Yes (manual) |
-| Permanent memory | Yes | No (resets) | Yes |
-| Data privacy | On your hardware / private options | Cloud shared | Human access |
-| Monthly cost (after setup) | $50-150 API typical | $20-30/user | $1,500-3,000 |
+Hermes · OpenClaw · Paperclip · ChatGPT · Claude · Grok · Grok Bot · Muse · Jev
 
 ## Location
 
-Portland, Oregon (serving Portland metro, Beaverton, Lake Oswego, Tigard, Hillsboro, and the Pacific Northwest; remote-ok)
+Portland, Oregon (Portland metro and remote-ok)
 
 ## Contact
 
-- Website: https://bridgetownai.com
+- Website: https://seantei.github.io/bridgetownai-website/ (custom domain pending DNS)
+- Canonical target: https://bridgetownai.com
 - Email: sean.teisher@bridgetownai.com
-- Book free Fit Call: https://calendly.com/sean-teisher-bridgetownai/30min
-- Book $500 Assessment: https://calendly.com/sean-teisher-bridgetownai/agent-assessment-500-2-hours
+- Book free discovery: https://calendly.com/sean-teisher-bridgetownai/30min
 
 ## Founded
 
