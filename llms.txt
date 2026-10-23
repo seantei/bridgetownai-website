@@ -1,44 +1,26 @@
 # Bridgetown AI
 
-> Portland, Oregon-based AI company that designs and deploys 24/7 AI employees for small businesses.
+> Portland, Oregon AI consulting practice run by Sean Teisher. Sean has 26 years in IT, including nearly two decades as VP of IT at New Seasons Market. He helps small businesses use AI agents and proves a solution works on their real workflow before they pay.
 
-## What We Do
+## How it works
+1. Free 30-minute call about how the business runs.
+2. A working pilot on one real task.
+3. The client sees the results and decides whether to keep, change, or walk away.
+4. Grow what works, with optional ongoing management.
 
-Bridgetown AI builds autonomous AI employees for digital jobs: email, calendar, CRM, research, documents, outreach, ops, and more. Agents connect to real tools. A human can stay in the loop at every stage. Irreversible actions require approval.
+## Ways to work together
+- Consulting: where AI fits, what to skip, which tools are worth it
+- Team training: hands-on, safe use of ChatGPT, Claude and other tools
+- Custom AI agents: phone and booking assistant, Google review responder, bookkeeping helper, lead follow-up
+- Ongoing agent management: monitoring, tuning and updates
 
-## Offer
+Pricing is shaped per client after the free call. There are no published prices.
 
-- Free discovery call (30 minutes): map one AI-employee role, tools, and human checkpoints.
-- Promise: no customer is ever charged until they agree their AI employee is providing the value being charged for.
-- Builds and ongoing care are scoped after discovery.
-
-## Example roles AI employees handle reliably
-
-Inbox triage & drafting · Calendar & scheduling · Meeting prep & follow-up · Spreadsheet & report ops · Research · Document drafting · Outreach sequences · CRM hygiene · Order/vendor chase · Support triage · Knowledge base curation · Monitoring & alerts
-
-## Key Differentiators
-
-- Free discovery with zero pitch tax
-- Human-in-the-loop by default
-- Value-before-invoice risk reversal
-- Real system connections, not chat toys
-- On-prem / private options when data must stay close
-
-## Stacks we work with
-
-Hermes · OpenClaw · Paperclip · ChatGPT · Claude · Grok · Grok Bot · Muse · Jev
-
-## Location
-
-Portland, Oregon (Portland metro and remote-ok)
+## Tools
+Hermes · Grok Bot · OpenClaw · Claude & Claude Code · ChatGPT & Codex · Muse · Google Workspace · Microsoft 365
 
 ## Contact
-
-- Website: https://seantei.github.io/bridgetownai-website/ (custom domain pending DNS)
-- Canonical target: https://bridgetownai.com
+- Website: https://bridgetownai.com/
 - Email: sean.teisher@bridgetownai.com
-- Book free discovery: https://calendly.com/sean-teisher-bridgetownai/30min
-
-## Founded
-
-2026 by Sean Teisher
+- Book a free call: https://calendly.com/sean-teisher-bridgetownai/30min
+- Location: Portland, Oregon (local and remote)
